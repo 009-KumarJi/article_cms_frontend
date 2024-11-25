@@ -1,39 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, CircularProgress } from "@mui/material";
-import api from "../services/api";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Container, Typography, Avatar, Box } from '@mui/material';
 
 const Profile = () => {
-	const [profile, setProfile] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const { user } = useSelector((state) => state.auth);
 
-	useEffect(() => {
-		const fetchProfile = async () => {
-			try {
-				const response = await api.get("/auth/profile");
-				setProfile(response.data);
-			} catch (err) {
-				console.error("Error fetching profile:", err);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchProfile();
-	}, []);
-
-	if (loading) {
-		return <CircularProgress />;
+	if (!user) {
+		return (
+			<Container sx={{ mt: 4 }}>
+				<Typography variant="h5">User not found</Typography>
+			</Container>
+		);
 	}
 
 	return (
-		<Container sx={{ marginTop: 5 }}>
-			<Typography variant="h4" gutterBottom>
-				Profile
-			</Typography>
-			<Box sx={{ marginTop: 2 }}>
-				<Typography variant="h6">Name: {profile?.name}</Typography>
-				<Typography variant="h6">Email: {profile?.email}</Typography>
-				<Typography variant="h6">Username: {profile?.username}</Typography>
+		<Container sx={{ mt: 4 }}>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+				<Avatar src={user.avatar} alt={user.username} sx={{ width: 80, height: 80 }} />
+				<Typography variant="h4">{`${user.firstName} ${user.lastName}`}</Typography>
 			</Box>
+			<Typography variant="body1" sx={{ mt: 2 }}>
+				Username: {user.username}
+			</Typography>
+			<Typography variant="body1">Email: {user.email}</Typography>
+			<Typography variant="body1">Role: {user.role}</Typography>
 		</Container>
 	);
 };

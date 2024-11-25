@@ -2,14 +2,14 @@ import React from 'react';
 import { Container, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const NotFound = () => {
+const Forbidden = () => {
 	return (
 		<Container sx={{ textAlign: 'center', mt: 10 }}>
 			<Typography variant="h1" gutterBottom>
-				404
+				403
 			</Typography>
 			<Typography variant="h5" gutterBottom>
-				Oops! The page you're looking for doesn't exist.
+				You don't have permission to access this page.
 			</Typography>
 			<Button variant="contained" component={Link} to="/" sx={{ mt: 2 }}>
 				Go to Dashboard
@@ -18,4 +18,4 @@ const NotFound = () => {
 	);
 };
 
-export default NotFound;
+export default Forbidden;
